@@ -1,19 +1,20 @@
-import React, { Component } from 'react';
-import Die from './Die';
-import './Dice.css';
+import Die from "./Die";
+import "./Dice.css";
 
-class Dice extends Component {
-  render() {
-    return <div className="Dice">
-      {this.props.dice.map((d, idx) =>
-        <Die handleClick={this.props.handleClick}
+function Dice({ dice, handleClick, locked }) {
+  return (
+    <div className="Dice">
+      {dice.map((d, idx) => (
+        <Die
+          handleClick={handleClick}
           val={d}
-          locked={this.props.locked[idx]}
+          locked={locked[idx]}
           idx={idx}
-          key={idx} />
-      )}
+          key={idx}
+        />
+      ))}
     </div>
-  }
+  );
 }
 
 export default Dice;
