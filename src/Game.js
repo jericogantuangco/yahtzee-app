@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Dice from "./Dice";
 import ScoreTable from "./ScoreTable";
 import "./Game.css";
@@ -53,11 +53,11 @@ function Game() {
   function toggleLocked(idx) {
     // toggle whether idx is in locked or not
     if (rollsLeft > 0 && !rolling) {
-    setLocked([
-      ...locked.slice(0, idx),
-      !locked[idx],
-      ...locked.slice(idx + 1),
-    ]);
+      setLocked([
+        ...locked.slice(0, idx),
+        !locked[idx],
+        ...locked.slice(idx + 1),
+      ]);
     }
   }
 
@@ -68,6 +68,19 @@ function Game() {
     setLocked(Array(NUM_DICE).fill(false));
     animateRoll();
   }
+
+  function displayRollInfo(rolls) {
+    const rollsLeft = {
+      0: "0 Rolls Left",
+      1: "1 Roll Left",
+      2: "2 Rolls Left",
+      starting: "Starting Round",
+    };
+
+    if (rolls < 3) {
+      return rollsLeft[rolls];
+    }
+    return rollsLeft["starting"];
   }
 
   return (
@@ -89,7 +102,7 @@ function Game() {
               disabled={locked.every((x) => x) || rollsLeft === 0 || rolling}
               onClick={animateRoll}
             >
-              {rollsLeft} Rerolls Left
+              {displayRollInfo(rollsLeft)}
             </button>
           </div>
         </section>
